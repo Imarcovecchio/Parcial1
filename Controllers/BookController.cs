@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Parcialherramientas.Data;
 using Parcialherramientas.Models;
+using Parcialherramientas.ViewModels;
 
 namespace Parcialherramientas.Controllers
 {
@@ -20,12 +21,23 @@ namespace Parcialherramientas.Controllers
         }
 
         // GET: Book
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string nameFilter)
         {
+            var query = from book in _context.Book select book;
+
+            if (!string.IsNullOrEmpty(nameFilter))
+            {
+                query = query.Where(x=> x.Nombre.Contains(nameFilter));
+            }
+
+            var model = new BookViewModel();
+            model.Books = await query.ToListAsync();
+            
               return _context.Book != null ? 
-                          View(await _context.Book.ToListAsync()) :
+                          View(model) :
                           Problem("Entity set 'BookContext.Book'  is null.");
         }
+
 
         // GET: Book/Details/5
         public async Task<IActionResult> Details(int? id)
