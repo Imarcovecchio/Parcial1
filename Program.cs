@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Parcialherramientas.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<BookContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("BookContext") ?? throw new InvalidOperationException("Connection string 'MvcAutorContext' not found.")));
 builder.Services.AddDbContext<BookContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("BookContext") ?? throw new InvalidOperationException("Connection string 'BookContext' not found.")));
 

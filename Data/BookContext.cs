@@ -15,5 +15,13 @@ namespace Parcialherramientas.Data
         }
 
         public DbSet<Parcialherramientas.Models.Book> Book { get; set; } = default!;
+        public DbSet<Parcialherramientas.Models.Autor> Autor { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder){
+            modelBuilder.Entity<Autor>()
+            .HasMany(p=> p.Books)
+            .WithOne(p=> p.Autor)
+            .HasForeignKey(p=> p.Id);
+        }
     }
 }

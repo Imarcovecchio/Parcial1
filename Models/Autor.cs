@@ -7,4 +7,6 @@ public class Autor
     public string Apellido { get; set; }
     public int Edad { get; set; }
     public string Genero { get; set; } 
+
+    public virtual List<Book> Books {get;set;}
 }
